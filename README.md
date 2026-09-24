@@ -34,7 +34,7 @@ Ofensiva web · Linux/Windows privesc · Active Directory · Cloud & Kubernetes
 ```
 
 > [!TIP]
-> Si eres reclutador o parte de un equipo de seguridad: cada nota de este repo está pensada para demostrar **proceso de pensamiento**, no solo el resultado final. Empieza por [`06 - Writeups/`](./06%20-%20Writeups) para ver ejemplos completos.
+> Si eres reclutador o parte de un equipo de seguridad: cada nota está pensada para demostrar **proceso de pensamiento**, no solo el resultado final. Un buen punto de partida es **[Fireflow](<01%20-%20Machines/Linux/Fireflow/Fireflow.md>)**, mi resolución más reciente de la HTB Business CTF 2026 (RCE en Langflow → JWT forgery → RBAC abuse en Kubernetes).
 
 <br>
 
@@ -67,17 +67,29 @@ flowchart TD
 
 ## 📂 Estructura del repositorio
 
-| Carpeta | Contenido |
-|---|---|
-| 📊 `00 - Dashboard/` | Panel principal de Obsidian: progreso, enlaces rápidos, vista general |
-| 🖥️ `01 - Machines/` | Notas personales de máquinas (HTB, VulnHub, etc.) |
-| 🧩 `02 - Challenges/` | Retos individuales (web, pwn, crypto, forense...) |
-| 🎓 `03 - Academy/` | Apuntes de HTB Academy y otras formaciones |
-| 🧠 `04 - Notes/` | Conceptos de seguridad, teoría y fundamentos |
-| ⚡ `05 - Cheatsheets/` | Referencias rápidas de comandos y herramientas |
-| 📖 `06 - Writeups/` | Writeups seleccionados, pulidos y listos para compartir |
-| 🧱 `99 - Templates/` | Plantillas de Obsidian para nuevas notas |
-| 🖼️ `Attachments/` | Imágenes y material de apoyo |
+```
+.
+├── 00 - Dashboard/          → Home.md, panel principal de Obsidian
+├── 01 - Machines/           → Notas de máquinas resueltas, por sistema
+│   ├── Active Directory/
+│   ├── Linux/                 (ej. Fireflow/, con su carpeta attachments/)
+│   └── Windows/
+├── 02 - Challenges/         → Retos individuales, por categoría
+│   ├── Crypto/  Forensics/  Misc/  Pwn/  Reversing/  Web/
+├── 03 - Academy/            → Apuntes de HTB Academy
+│   ├── Active Directory/  Defensive/  Linux/  Networking/  Web/
+├── 04 - Notes/              → Teoría y conceptos, transversales a todo
+│   ├── Active Directory/  Enumeration/  Linux/  Password Attacks/
+│   ├── Pivoting/  Privilege Escalation/  Tools/  Web/  Windows/
+├── 05 - Cheatsheets/        → Referencias rápidas de comandos
+├── 06 - Writeups/           → Versión pulida y compartible de casos destacados
+│   ├── Challenges/  Machines/
+├── 99 - Templates/          → Machine.md y futuras plantillas de nota
+└── Attachments/             → Recursos globales (no ligados a una nota concreta)
+```
+
+> [!NOTE]
+> `01 - Machines/` es donde vive el trabajo real (notas de proceso, capturas, comandos). `06 - Writeups/` reserva una versión más narrativa y cuidada de los casos que quiero destacar en el porfolio — no todas las máquinas de `01 -` tienen por qué llegar ahí.
 
 <br>
 
@@ -127,7 +139,7 @@ flowchart TD
 
 ### ☁️ Cloud & Contenedores
 - Docker / Kubernetes
-- Abuso de RBAC
+- Abuso de RBAC (`nodes/proxy` y similares)
 - Pivoting entre pods y nodos
 - Explotación de APIs internas (MCP, microservicios)
 
@@ -149,6 +161,8 @@ flowchart TD
 
 `Nmap` · `Burp Suite` · `ffuf` · `Gobuster` · `Feroxbuster` · `Impacket` · `BloodHound` · `NetExec` · `CrackMapExec` · `Hashcat` · `John the Ripper` · `Metasploit` · `LinPEAS` · `WinPEAS` · `Chisel` · `Ligolo-ng`
 
+Documentadas en detalle en [`05 - Cheatsheets/`](<05%20-%20Cheatsheets>).
+
 </div>
 
 <br>
@@ -156,7 +170,7 @@ flowchart TD
 ## 📊 Progreso
 
 ```
-Machines       ███████░░░  70%  In progress
+Machines       ███████░░░  70%  In progress   (última: Fireflow, HTB Business CTF 2026)
 Challenges     ████░░░░░░  40%  In progress
 Academy        █████░░░░░  50%  In progress
 Knowledge Base ██████░░░░  60%  Growing steadily
@@ -166,7 +180,7 @@ Knowledge Base ██████░░░░  60%  Growing steadily
 
 ## 🧪 Metodología
 
-Cada nota sigue el mismo ciclo, para que el conocimiento sea siempre reutilizable:
+Cada nota de `01 - Machines/` y `06 - Writeups/` sigue el mismo ciclo, para que el conocimiento sea siempre reutilizable:
 
 ```
 Recon → Enumeration → Attack Surface → Initial Access
@@ -181,16 +195,20 @@ No me limito a registrar **qué funcionó**. Cada nota intenta responder tambié
 - 🛠️ Qué herramientas resultaron realmente útiles
 - 🚀 Qué haría **diferente** la próxima vez
 
+Toda nueva máquina arranca desde la plantilla [`99 - Templates/Machine.md`](<99%20-%20Templates/Machine.md>), así que la estructura es consistente entre notas.
+
 <br>
 
 ## 🚀 Cómo navegar este repo
 
-1. Si quieres ver el **nivel de detalle técnico**, entra en [`06 - Writeups/`](./06%20-%20Writeups) — son las notas más pulidas.
-2. Si te interesa cómo organizo el conocimiento, abre este repo en **Obsidian** y explora el grafo de enlaces (`Graph View`) desde `00 - Dashboard/`.
-3. Si buscas referencias rápidas de comandos, mira `05 - Cheatsheets/`.
+1. **Punto de entrada:** [`00 - Dashboard/Home.md`](<00%20-%20Dashboard/Home.md>) — panel general con enlaces a todo lo demás.
+2. **Nivel de detalle técnico:** entra en [`01 - Machines/`](<01%20-%20Machines>) por sistema operativo, o directamente a [`01 - Machines/Linux/Fireflow/Fireflow.md`](<01%20-%20Machines/Linux/Fireflow/Fireflow.md>) como ejemplo completo.
+3. **Versión "porfolio":** [`06 - Writeups/`](<06%20-%20Writeups>) reúne los casos más pulidos, pensados para leerse de forma independiente.
+4. **Referencias rápidas:** [`05 - Cheatsheets/`](<05%20-%20Cheatsheets>) para comandos y sintaxis sin rodeos.
+5. **Fundamentos y teoría:** [`04 - Notes/`](<04%20-%20Notes>), organizados por dominio (AD, Linux, Web, Pivoting, etc.).
 
 > [!NOTE]
-> Este repositorio está pensado para leerse tanto en GitHub como en Obsidian. Los enlaces internos (`[[nota]]`) funcionan en Obsidian; en GitHub se muestran como texto plano.
+> Este repositorio está pensado para leerse tanto en GitHub como en Obsidian. Los enlaces internos (`[[nota]]`) funcionan en Obsidian; en GitHub uso rutas relativas normales para que también naveguen bien aquí.
 
 <br>
 
