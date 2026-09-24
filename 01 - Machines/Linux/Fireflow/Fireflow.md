@@ -71,7 +71,7 @@ echo "<TARGET_IP> fireflow.htb" | sudo tee -a /etc/hosts
 
 Al visitar `https://fireflow.htb` aparece la web corporativa ficticia "Task Force Nightfall", que describe la plataforma FireFlow como herramienta interna de automatización de inteligencia y expone un agente de IA (*Nightfall AI Agent*) accesible mediante un botón **"Open Agent"**.
 
-> ![Fig. 1 — Página principal de FireFlow](attachments/fireflow_fig1_landing.png)
+> ![Landing](attachments/fireflow_fig1_landing.png)
 > *Fig. 1 — Página principal de FireFlow, con el enlace al Nightfall AI Agent (Langflow playground).*
 
 El botón redirige a un nuevo virtual host, `flow.fireflow.htb` (que también se añade a `/etc/hosts`), y aterriza en un *playground* de Langflow con un `flow_id` visible en la URL. Este identificador es la pieza clave para el siguiente paso.
@@ -121,7 +121,7 @@ uid=1000(nightfall) gid=1000(nightfall) groups=1000(nightfall)
 
 En el directorio personal de `nightfall` aparece un directorio oculto `.mcp/` con un fichero `config.json` que filtra las credenciales de acceso a un servidor MCP interno (registro de herramientas para el agente de IA), alcanzable dentro de la red del clúster.
 
-> ![Fig. 2 — config.json filtrado y autenticación](attachments/fireflow_fig2_mcp_auth.png)
+> ![MCP authentication](/attachments/fireflow_fig2_mcp_auth.png)
 > *Fig. 2 — `config.json` filtrado, autenticación contra `/api/v1/auth` y obtención del JWT legítimo (rol `"user"`).*
 
 Consultando el endpoint de versión del servicio (`/api/v1/version`) se descubre que, además de HS256, el servidor acepta el algoritmo de firma **`"none"`** para los JWT — una mala configuración clásica que permite construir un token válido sin conocer ningún secreto: basta con dejar la firma vacía. El token legítimo obtenido con las credenciales de `langflow-bot` decodifica a `{"sub":"langflow-bot","role":"user"}`, insuficiente para el endpoint administrativo `POST /api/v1/tools`.
@@ -138,7 +138,7 @@ TOKEN_FALSO="${HEADER}.${PAYLOAD}."   # firma vacía
 > [!warning] Redactado
 > Los tokens JWT reales (legítimo y forjado) obtenidos durante la resolución se han omitido del documento; solo son válidos contra la instancia efímera del laboratorio.
 
-> ![Fig. 3 — Forja del JWT con alg:none](attachments/fireflow_fig3_jwt_forge.png)
+> ![JWT Forge](attachments/fireflow_fig3_jwt_forge.png)
 > *Fig. 3 — Forja del JWT con `alg:none`: cabecera y payload en base64url, firma vacía → token de administrador.*
 
 Con el token falso firmado como `"admin"`, se registra una herramienta MCP maliciosa cuyo código Python abre una reverse shell al invocarse, y a continuación se dispara mediante `tools/call` sobre el endpoint JSON-RPC `/mcp`.
