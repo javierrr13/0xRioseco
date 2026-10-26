@@ -118,10 +118,6 @@ adversarios** y en la **generalización** entre entornos distintos. Los proveedo
 publican cifras muy altas (por ejemplo, Simbian afirma que su agente resuelve el 92 % de las alertas
 por sí solo). Es un *dato de proveedor*, no un resultado independiente.
 
-> [!tip] Cómo leer estas cifras
-> Un "resuelve el X % de alertas" depende de **qué cuenta como resuelta** y de **qué alertas se
-> midieron**. Es el mismo problema de denominador que vimos con PHP2Shell: sin la métrica, el
-> conjunto de datos y la tasa de error de los descartes, la cifra no se puede comparar.
 
 ### Riesgos que introduce
 
