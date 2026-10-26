@@ -22,11 +22,11 @@
 
 ## 🔬 Investigación de vulnerabilidades
 
-- [[07 - Research/Metodología de análisis de vulnerabilidades\|Metodología de análisis de vulnerabilidades]]
+- [[07 - Research/La IA en el SOC\|La IA en el SOC: detección, fatiga de alertas y el nuevo perfil del analista]]
 
 ## 📊 Data Science / ML
 
-- [[08 - Data Science/Stack y enfoque de trabajo\|Stack y enfoque de trabajo]]
+- [[08 - Data Science/PHP2Shell — análisis de impacto a escala\|PHP2Shell: análisis de impacto a escala]]
 
 ## 📚 Notas & Cheatsheets
 

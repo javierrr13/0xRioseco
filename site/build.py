@@ -54,10 +54,10 @@ COLLECTIONS = [
          accent="var(--green)", kind="machine", dirs=["01 - Machines"],
          blurb="Máquinas y retos resueltos paso a paso, de la enumeración al "
                "root — y las lecciones que deja cada uno."),
-    dict(id="research", name="Investigación de vulnerabilidades", icon="🔬",
+    dict(id="research", name="Investigación", icon="🔬",
          accent="var(--orange)", kind="post", dirs=["07 - Research"],
-         blurb="Análisis de CVEs, estudio de parches, pruebas de concepto y "
-               "hallazgos propios."),
+         blurb="Análisis de vulnerabilidades y tendencias en defensa: SOC, "
+               "respuesta a incidentes e impacto de la IA."),
     dict(id="data", name="Data Science / ML", icon="📊",
          accent="var(--teal)", kind="post", dirs=["08 - Data Science"],
          blurb="Proyectos de datos, análisis exploratorio, visualización y "
@@ -356,7 +356,40 @@ def render_roadmap():
 
 
 # ---- hub ------------------------------------------------------------------ #
-def render_index(by_area, recent):
+def projects_html(projects):
+    out = ""
+    for p in projects:
+        url = as_str(p.get("url"))
+        name = html.escape(as_str(p.get("name")))
+        title = f'<a href="{html.escape(url)}">{name}</a>' if url else name
+        tech = "".join(f"<span>{html.escape(as_str(t))}</span>" for t in (p.get("tech") or []))
+        go = f'<a class="go" href="{html.escape(url)}">Ver en GitHub ↗</a>' if url else ""
+        out += (f'<article class="project-card"><h3>{title}</h3>'
+                f'<p>{html.escape(as_str(p.get("summary")))}</p>'
+                f'<div class="skill-chips">{tech}</div>{go}</article>')
+    return out
+
+
+def timeline_html(profile):
+    """Formación + experiencia como dos columnas de línea de tiempo."""
+    def entries(items, kind):
+        out = ""
+        for e in items or []:
+            sub = " · ".join(x for x in (as_str(e.get("org")), as_str(e.get("place"))) if x)
+            lis = "".join(f"<li>{html.escape(as_str(i))}</li>" for i in (e.get("items") or []))
+            period = as_str(e.get("period"))
+            out += (f'<div class="tl-item"><div class="tl-period">{html.escape(period) or "&nbsp;"}</div>'
+                    f'<div class="tl-title">{html.escape(as_str(e.get("title")))}</div>'
+                    f'<div class="tl-org">{html.escape(sub)}</div>'
+                    + (f"<ul>{lis}</ul>" if lis else "") + "</div>")
+        return (f'<div class="tl-col"><h4>{kind}</h4>{out}</div>') if out else ""
+    cols = entries(profile.get("education"), "🎓 Formación") + \
+        entries(profile.get("experience"), "💼 Experiencia")
+    return f'<div class="timeline">{cols}</div>' if cols else ""
+
+
+def render_index(by_area, recent, profile=None):
+    profile = profile or {}
     total = sum(len(v) for v in by_area.values())
     area_cards = ""
     for c in COLLECTIONS:
@@ -387,30 +420,58 @@ def render_index(by_area, recent):
   <div class="recent">{cards}</div>
 </div></section>"""
 
+    name = as_str(profile.get("name") or "Javier Rioseco Rodríguez")
+    role = as_str(profile.get("role"))
+    loc = as_str(profile.get("location"))
+    tagline = as_str(profile.get("tagline"))
+    stats = "".join(
+        f'<div class="stat"><div class="n">{html.escape(as_str(h.get("value")))}</div>'
+        f'<div class="l">{html.escape(as_str(h.get("label")))}</div></div>'
+        for h in (profile.get("highlights") or [])
+    )
+    stats += (f'<div class="stat"><div class="n">{total}</div>'
+              f'<div class="l">Entradas publicadas en este sitio</div></div>')
+
+    projects = profile.get("projects") or []
+    projects_sec = ""
+    if projects:
+        projects_sec = f"""
+<section id="projects"><div class="wrap">
+  <div class="sec-head"><h2>Proyectos</h2><p>código propio en GitHub</p></div>
+  <div class="projects">{projects_html(projects)}</div>
+</div></section>"""
+
+    timeline = timeline_html(profile)
+    timeline_sec = ""
+    if timeline:
+        timeline_sec = f"""
+<section id="trayectoria"><div class="wrap">
+  <div class="sec-head"><h2>Trayectoria</h2><p>formación y experiencia</p></div>
+  {timeline}
+  <p class="roadmap-hint">Perfil completo, skills e idiomas en <a href="about.html">Sobre mí</a>.</p>
+</div></section>"""
+
     body = f"""
 <header class="hero"><div class="wrap">
-  <span class="tag">// personal lab — security · research · data</span>
-  <h1><span class="grad">0x</span>Rioseco</h1>
-  <p>Laboratorio personal de <b>Javier Rioseco</b>: seguridad ofensiva, investigación
-     de vulnerabilidades y data science. Donde documento lo que aprendo, rompo e
-     investigo — y lo que vaya saliendo.</p>
+  <span class="tag">// <span class="zero">0x</span>Rioseco — security · research · data</span>
+  <h1>{html.escape(name)}</h1>
+  {f'<p class="role">{html.escape(role)}{" · " + html.escape(loc) if loc else ""}</p>' if role else ""}
+  <p>{html.escape(tagline)}</p>
   <div class="cta">
-    <a class="btn primary" href="#areas">Explorar áreas →</a>
-    <a class="btn" href="{GH_URL}">Ver en GitHub ↗</a>
+    <a class="btn primary" href="#areas">Explorar el laboratorio →</a>
+    <a class="btn" href="#projects">Proyectos</a>
+    <a class="btn" href="about.html">Sobre mí</a>
+    <a class="btn" href="https://github.com/javierrr13">GitHub ↗</a>
   </div>
-  <div class="stats">
-    <div class="stat"><div class="n">{total}</div><div class="l">Entradas publicadas</div></div>
-    <div class="stat"><div class="n">{len(COLLECTIONS)}</div><div class="l">Áreas</div></div>
-    <div class="stat"><div class="n">{len(by_area["offensive"])}</div><div class="l">Máquinas / retos</div></div>
-    <div class="stat"><div class="n">{len(recent)}</div><div class="l">Con fecha</div></div>
-  </div>
+  <div class="stats">{stats}</div>
 </div></header>
-
+{projects_sec}
 <section id="areas"><div class="wrap">
-  <div class="sec-head"><h2>Áreas</h2><p>elige por dónde empezar</p></div>
+  <div class="sec-head"><h2>Áreas</h2><p>lo que investigo y documento</p></div>
   <div class="areas">{area_cards}</div>
 </div></section>
 {recent_html}
+{timeline_sec}
 """
     return page_shell(f"{SITE_NAME} — {SITE_DESC}", SITE_DESC, body, prefix="")
 
@@ -708,6 +769,15 @@ def render_about():
         skills_html += (f'<div class="skill-group"><h4>{html.escape(group)}</h4>'
                         f'<div class="skill-chips">{chips}</div></div>')
 
+    langs = meta.get("languages") or []
+    langs_html = ""
+    if langs:
+        chips = "".join(
+            f'<span><b>{html.escape(as_str(l.get("name")))}</b> · {html.escape(as_str(l.get("level")))}</span>'
+            for l in langs)
+        langs_html = (f'<div class="sec-head" style="margin-top:34px"><h2>Idiomas</h2></div>'
+                      f'<div class="skill-chips langs">{chips}</div>')
+
     certs = [as_str(c) for c in (meta.get("certs") or []) if as_str(c)]
     certs_html = ""
     if certs:
@@ -725,8 +795,11 @@ def render_about():
 </div></header>
 <section><div class="wrap">
   <article class="prose">{bio}</article>
+  {f'<div class="sec-head" style="margin-top:34px"><h2>Trayectoria</h2></div>{timeline_html(meta)}' if timeline_html(meta) else ""}
+  {f'<div class="sec-head" style="margin-top:34px"><h2>Proyectos</h2></div><div class="projects">{projects_html(meta.get("projects"))}</div>' if meta.get("projects") else ""}
   <div class="sec-head" style="margin-top:34px"><h2>Skills</h2></div>
   <div class="skills">{skills_html}</div>
+  {langs_html}
   {certs_html}
 </div></section>"""
     return page_shell(f"Sobre mí — {SITE_NAME}",
@@ -770,7 +843,10 @@ def main():
                 recent.append(it)
 
     recent.sort(key=lambda m: m["date"], reverse=True)
-    (OUT / "index.html").write_text(render_index(by_area, recent), encoding="utf-8")
+    profile = {}
+    if ABOUT_SRC.exists():
+        profile, _ = parse_frontmatter(ABOUT_SRC.read_text(encoding="utf-8"))
+    (OUT / "index.html").write_text(render_index(by_area, recent, profile), encoding="utf-8")
 
     # Página de cobertura MITRE ATT&CK (agregada de las máquinas)
     by_tactic = collect_attack(by_area.get("offensive", []))
