@@ -274,3 +274,68 @@ section { padding: 46px 0; }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto; }
 }
+
+/* ==========================================================================
+   0xRioseco — multi-área (hub, áreas, posts)
+   ========================================================================== */
+
+/* marca 0x */
+.brand .zero { color: var(--green); }
+
+/* Hub: tarjetas de área */
+.areas { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+.area-card {
+  position: relative; display: flex; flex-direction: column; gap: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 22px 20px; overflow: hidden;
+  border-top: 3px solid var(--accent, var(--green));
+  transition: transform .18s, border-color .18s, box-shadow .18s;
+}
+.area-card:hover { transform: translateY(-5px); border-color: var(--accent, var(--green));
+  box-shadow: 0 16px 34px -18px var(--accent, var(--green)); text-decoration: none; }
+.area-card .ico { font-size: 26px; }
+.area-card h3 { margin: 0; font-size: 19px; color: var(--text); }
+.area-card:hover h3 { color: var(--accent, var(--green)); }
+.area-card p { margin: 0; color: var(--text-dim); font-size: 14px; line-height: 1.5; }
+.area-card .count { font-family: var(--mono); font-size: 12px; color: var(--text-mut);
+  margin-top: auto; }
+.area-card .count b { color: var(--accent, var(--green)); }
+.area-card .arrow { position: absolute; top: 20px; right: 20px; color: var(--text-mut);
+  font-family: var(--mono); transition: .18s; }
+.area-card:hover .arrow { color: var(--accent, var(--green)); transform: translateX(3px); }
+
+/* cabecera de página de área */
+.area-head { padding: 54px 0 10px; }
+.area-head .eyebrow { font-family: var(--mono); font-size: 13px; color: var(--accent, var(--green)); }
+.area-head h1 { font-size: clamp(28px, 4vw, 42px); margin: 10px 0 10px; letter-spacing: -.6px; }
+.area-head p { color: var(--text-dim); font-size: 17px; max-width: 680px; margin: 0; }
+
+/* tarjetas de post (research / data / notes) */
+.post-card {
+  display: flex; flex-direction: column; gap: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px; position: relative; overflow: hidden;
+  border-left: 3px solid var(--accent, var(--green));
+  transition: transform .18s, border-color .18s, box-shadow .18s;
+}
+.post-card:hover { transform: translateY(-4px); border-color: var(--accent, var(--green));
+  box-shadow: var(--shadow); }
+.post-card h3 { margin: 0; font-size: 18px; }
+.post-card h3 a { color: var(--text); }
+.post-card:hover h3 a { color: var(--accent, var(--green)); text-decoration: none; }
+.post-card .pmeta { font-family: var(--mono); font-size: 11.5px; color: var(--text-mut);
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.post-card .pmeta .cat { color: var(--accent, var(--green)); border: 1px solid currentColor;
+  border-radius: 6px; padding: 1px 8px; }
+.post-card .summary { color: var(--text-dim); font-size: 14px; line-height: 1.55; }
+.post-card .go { font-family: var(--mono); font-size: 13px; color: var(--accent, var(--green)); margin-top: auto; }
+
+/* "últimas entradas" en el hub */
+.recent { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 14px; }
+.recent a { display: flex; flex-direction: column; gap: 6px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px;
+  transition: .16s; }
+.recent a:hover { border-color: var(--accent, var(--green)); text-decoration: none; transform: translateY(-3px); }
+.recent .r-area { font-family: var(--mono); font-size: 11px; color: var(--accent, var(--green)); }
+.recent .r-title { color: var(--text); font-size: 14.5px; font-weight: 600; }
+.recent .r-date { font-family: var(--mono); font-size: 11px; color: var(--text-mut); }
