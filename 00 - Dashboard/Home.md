@@ -14,35 +14,49 @@
 
 ## 🖥️ Machines
 
-| Platform | Status |
-|---|---|
-| 🐧 Linux | 🔄 In Progress |
-| 🪟 Windows | 🔄 In Progress |
-| 🏢 Active Directory | ⏳ |
+| Máquina | Plataforma | OS | Dificultad | Estado |
+|---|---|---|---|---|
+| [[01 - Machines/Linux/Cap/Cap\|Cap]] | HackTheBox | 🐧 Linux | Fácil | ✅ Retired |
+| [[01 - Machines/Linux/Fireflow/Fireflow\|Fireflow]] | Business CTF 2026 | 🐧 Linux | Media | ✅ Retired |
+
+> [!tip] Punto de entrada recomendado
+> **[[01 - Machines/Linux/Fireflow/Fireflow\|Fireflow]]** — RCE en Langflow → JWT forgery → abuso de RBAC en Kubernetes.
 
 ---
 
 ## 🧰 Core Skills
 
-- [[04 - Notes/Enumeration/Enumeration]]
-- [[04 - Notes/Privilege Escalation/Linux PrivEsc]]
-- [[04 - Notes/Active Directory/Active Directory]]
-- [[04 - Notes/Web/Web Enumeration]]
+> Las notas de teoría (`04 - Notes/`) y cheatsheets (`05 - Cheatsheets/`) están en construcción.
+> Por ahora, los conceptos aplicados viven dentro de cada writeup de máquina.
+
+- [ ] Enumeration
+- [ ] Linux PrivEsc
+- [ ] Active Directory
+- [ ] Web Enumeration
 
 ---
 
 ## 📚 Cheatsheets
 
-- [[05 - Cheatsheets/Nmap]]
-- [[05 - Cheatsheets/Gobuster]]
-- [[05 - Cheatsheets/Burp Suite]]
-- [[05 - Cheatsheets/Impacket]]
+> 🚧 *Work in progress* — pendientes de crear en `05 - Cheatsheets/`.
+
+- [ ] Nmap
+- [ ] Gobuster / ffuf
+- [ ] Burp Suite
+- [ ] Impacket
 
 ---
 
-## 📝 Recent Writeups
+## 📝 Writeups destacados
 
-- [[06 - Writeups/Machines/Example]]
+- [[01 - Machines/Linux/Cap/Cap\|Cap]] — IDOR → PCAP → FTP → Linux capabilities (`cap_setuid`)
+- [[01 - Machines/Linux/Fireflow/Fireflow\|Fireflow]] — Langflow RCE → JWT `alg:none` → Kubernetes RBAC
+
+---
+
+## 🧩 Plantillas
+
+- [[99 - Templates/Machine\|Machine.md]] — plantilla base para una nueva máquina.
 
 ---
 
