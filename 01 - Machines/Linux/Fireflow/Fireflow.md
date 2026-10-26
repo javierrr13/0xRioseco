@@ -10,6 +10,28 @@ date: 2026-08-31
 entry_vector: "flow_id Langflow → RCE no autenticada (CVE-2026-33017)"
 privesc_vector: "JWT alg:none (MCP) → shell en pod → RBAC nodes/proxy en Kubernetes"
 xp: 650
+attack:
+  - id: T1190
+    name: Exploit Public-Facing Application
+    tactic: Initial Access
+  - id: T1059
+    name: Command and Scripting Interpreter
+    tactic: Execution
+  - id: T1552.001
+    name: "Unsecured Credentials: Credentials In Files"
+    tactic: Credential Access
+  - id: T1606
+    name: Forge Web Credentials
+    tactic: Credential Access
+  - id: T1078
+    name: Valid Accounts
+    tactic: Lateral Movement
+  - id: T1609
+    name: Container Administration Command
+    tactic: Execution
+  - id: T1611
+    name: Escape to Host
+    tactic: Privilege Escalation
 tags:
   - htb
   - ctf

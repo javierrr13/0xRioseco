@@ -347,3 +347,36 @@ section { padding: 46px 0; }
 .chart-card figcaption { margin-top: 10px; font-size: 13px; color: var(--text-mut);
   font-family: var(--mono); line-height: 1.5; }
 @media (max-width: 560px) { .chart-wrap { height: 300px; } }
+
+/* ---------- MITRE ATT&CK board ----------------------------------------- */
+.attack-board { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px; margin-top: 20px; align-items: start; }
+.tac-col { background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 0 0 8px; overflow: hidden;
+  border-top: 3px solid var(--accent, var(--green)); }
+.tac-head { font-family: var(--mono); font-size: 13px; font-weight: 600;
+  color: var(--accent, var(--green)); padding: 12px 14px 10px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid var(--border); }
+.tac-n { font-size: 11px; color: var(--text-mut); border: 1px solid var(--border-2);
+  border-radius: 999px; padding: 1px 8px; }
+.tech { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+.tech:last-child { border-bottom: 0; }
+.tech-id { font-family: var(--mono); font-size: 11px; color: var(--text-mut); }
+.tech-name { font-size: 13.5px; color: var(--text); margin: 1px 0 3px; line-height: 1.35; }
+.tech-src { font-size: 11.5px; font-family: var(--mono); }
+.tech-src a { color: var(--accent, var(--green)); }
+
+/* ---------- Sobre mí ---------------------------------------------------- */
+.area-head .role { color: var(--green); font-family: var(--mono); font-size: 14px;
+  margin: 2px 0 10px; }
+.skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.skill-group { background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px 18px; }
+.skill-group h4 { margin: 0 0 10px; font-size: 14px; color: var(--teal);
+  font-family: var(--mono); }
+.skill-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.skill-chips span { font-family: var(--mono); font-size: 12px; color: var(--text-dim);
+  background: var(--surface-2); border: 1px solid var(--border-2);
+  border-radius: 6px; padding: 3px 9px; }
+.certs { font-family: var(--mono); font-size: 14px; color: var(--text-dim); }

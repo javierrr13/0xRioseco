@@ -307,6 +307,8 @@ def nav_links(prefix):
         f'<a href="{prefix}{c["id"]}.html">{c["name"].split(" ")[0].split("·")[0].strip()}</a>'
         for c in COLLECTIONS
     )
+    links += f'<a href="{prefix}attack.html">ATT&amp;CK</a>'
+    links += f'<a href="{prefix}about.html">Sobre mí</a>'
     return links
 
 
@@ -587,6 +589,150 @@ def render_post(p):
                       scripts=charts_script(charts, "../"))
 
 
+# ---- MITRE ATT&CK coverage ------------------------------------------------ #
+TACTIC_ORDER = [
+    "Reconnaissance", "Resource Development", "Initial Access", "Execution",
+    "Persistence", "Privilege Escalation", "Defense Evasion", "Credential Access",
+    "Discovery", "Lateral Movement", "Collection", "Command and Control",
+    "Exfiltration", "Impact",
+]
+TACTIC_ACCENT = {
+    "Initial Access": "var(--yellow)", "Execution": "var(--teal)",
+    "Persistence": "var(--teal)", "Privilege Escalation": "var(--orange)",
+    "Defense Evasion": "var(--purple)", "Credential Access": "var(--green)",
+    "Discovery": "var(--teal)", "Lateral Movement": "var(--blue)",
+    "Collection": "var(--green)", "Command and Control": "var(--purple)",
+    "Exfiltration": "var(--orange)", "Impact": "var(--orange)",
+}
+
+
+def collect_attack(machines):
+    """Agrega el mapeo ATT&CK de todas las máquinas: tactic -> {tech_id: {...}}."""
+    by_tactic = {}
+    for m in machines:
+        meta, _ = parse_frontmatter(m["_src"].read_text(encoding="utf-8"))
+        for t in (meta.get("attack") or []):
+            tactic = as_str(t.get("tactic")) or "Otros"
+            tid = as_str(t.get("id"))
+            name = as_str(t.get("name"))
+            d = by_tactic.setdefault(tactic, {})
+            e = d.setdefault(tid, {"id": tid, "name": name, "machines": []})
+            e["machines"].append({"name": m["machine"], "url": m["url"]})
+    return by_tactic
+
+
+def render_attack(by_tactic):
+    tactics = [t for t in TACTIC_ORDER if t in by_tactic] + \
+              [t for t in by_tactic if t not in TACTIC_ORDER]
+    n_tech = sum(len(v) for v in by_tactic.values())
+
+    cols = ""
+    for tac in tactics:
+        accent = TACTIC_ACCENT.get(tac, "var(--green)")
+        techs = ""
+        for e in sorted(by_tactic[tac].values(), key=lambda x: x["id"]):
+            machs = " · ".join(
+                f'<a href="{mm["url"]}">{html.escape(mm["name"])}</a>' for mm in e["machines"])
+            techs += (
+                f'<div class="tech"><div class="tech-id">{html.escape(e["id"])}</div>'
+                f'<div class="tech-name">{html.escape(e["name"])}</div>'
+                f'<div class="tech-src">{machs}</div></div>'
+            )
+        cols += (
+            f'<div class="tac-col" style="--accent:{accent}">'
+            f'<div class="tac-head">{html.escape(tac)}'
+            f'<span class="tac-n">{len(by_tactic[tac])}</span></div>{techs}</div>'
+        )
+
+    # gráfico: nº de técnicas por táctica
+    chart = {
+        "type": "bar",
+        "caption": "Técnicas distintas demostradas por táctica (mapeo propio a MITRE ATT&CK Enterprise).",
+        "data": {"labels": tactics,
+                 "datasets": [{"label": "Técnicas", "data": [len(by_tactic[t]) for t in tactics],
+                               "backgroundColor": "#9fef00"}]},
+        "options": {"responsive": True, "maintainAspectRatio": False,
+                    "scales": {"y": {"beginAtZero": True, "ticks": {"precision": 0}}},
+                    "plugins": {"legend": {"display": False},
+                                "title": {"display": True, "text": "Cobertura por táctica"}}},
+    }
+    charts = [("attackchart", chart)]
+
+    body = f"""
+<header class="area-head"><div class="wrap">
+  <div class="eyebrow" style="--accent:var(--green)">🎯 cobertura</div>
+  <h1>Mapa MITRE ATT&amp;CK</h1>
+  <p>Técnicas de ATT&amp;CK Enterprise demostradas en los writeups, agrupadas por táctica.
+     <b>{n_tech}</b> técnicas en <b>{len(tactics)}</b> tácticas.</p>
+</div></header>
+<section><div class="wrap">
+  <figure class="chart-card"><div class="chart-wrap"><canvas id="attackchart"></canvas></div>
+  <figcaption>Técnicas distintas por táctica. Mapeo orientativo propio a MITRE ATT&amp;CK Enterprise.</figcaption></figure>
+  <div class="attack-board">{cols}</div>
+  <p class="roadmap-hint">Cada técnica enlaza con el writeup donde se demuestra. El mapeo es
+     <b>orientativo</b> (interpretación propia), no una clasificación oficial de MITRE.</p>
+</div></section>"""
+    return page_shell(f"MITRE ATT&CK — {SITE_NAME}",
+                      "Cobertura de técnicas MITRE ATT&CK demostradas en los writeups.",
+                      body, prefix="", scripts=charts_script(charts, ""))
+
+
+# ---- página "Sobre mí" ---------------------------------------------------- #
+ABOUT_SRC = ROOT / "Sobre mí.md"
+
+
+def render_about():
+    if not ABOUT_SRC.exists():
+        return None
+    meta, body_md = parse_frontmatter(ABOUT_SRC.read_text(encoding="utf-8"))
+    name = as_str(meta.get("name") or "Javier Rioseco Rodríguez")
+    role = as_str(meta.get("role"))
+    loc = as_str(meta.get("location"))
+    tagline = as_str(meta.get("tagline"))
+    bio = render_body(body_md, "posts", "about")
+
+    # enlaces de contacto
+    btns = ""
+    for label, url in (meta.get("links") or {}).items():
+        if as_str(url):
+            btns += f'<a class="btn" href="{html.escape(as_str(url))}">{html.escape(label)} ↗</a>'
+    if as_str(meta.get("email")):
+        btns += f'<a class="btn" href="mailto:{html.escape(as_str(meta["email"]))}">Email</a>'
+    if as_str(meta.get("cv")):
+        btns = f'<a class="btn primary" href="{html.escape(as_str(meta["cv"]))}">Descargar CV ↓</a>' + btns
+
+    # skills
+    skills_html = ""
+    for group, items in (meta.get("skills") or {}).items():
+        chips = "".join(f"<span>{html.escape(as_str(s))}</span>" for s in (items or []))
+        skills_html += (f'<div class="skill-group"><h4>{html.escape(group)}</h4>'
+                        f'<div class="skill-chips">{chips}</div></div>')
+
+    certs = [as_str(c) for c in (meta.get("certs") or []) if as_str(c)]
+    certs_html = ""
+    if certs:
+        lis = "".join(f"<li>{html.escape(c)}</li>" for c in certs)
+        certs_html = (f'<div class="sec-head"><h2>Certificaciones</h2></div>'
+                      f'<ul class="certs">{lis}</ul>')
+
+    body = f"""
+<header class="area-head"><div class="wrap">
+  <div class="eyebrow" style="--accent:var(--green)">👤 sobre mí</div>
+  <h1>{html.escape(name)}</h1>
+  {f'<p class="role">{html.escape(role)}{" · " + html.escape(loc) if loc else ""}</p>' if role else ""}
+  {f'<p>{html.escape(tagline)}</p>' if tagline else ""}
+  <div class="cta">{btns}</div>
+</div></header>
+<section><div class="wrap">
+  <article class="prose">{bio}</article>
+  <div class="sec-head" style="margin-top:34px"><h2>Skills</h2></div>
+  <div class="skills">{skills_html}</div>
+  {certs_html}
+</div></section>"""
+    return page_shell(f"Sobre mí — {SITE_NAME}",
+                      tagline or f"Perfil de {name}", body, prefix="")
+
+
 # --------------------------------------------------------------------------- #
 #  Build
 # --------------------------------------------------------------------------- #
@@ -626,10 +772,22 @@ def main():
     recent.sort(key=lambda m: m["date"], reverse=True)
     (OUT / "index.html").write_text(render_index(by_area, recent), encoding="utf-8")
 
+    # Página de cobertura MITRE ATT&CK (agregada de las máquinas)
+    by_tactic = collect_attack(by_area.get("offensive", []))
+    n_tech = sum(len(v) for v in by_tactic.values())
+    (OUT / "attack.html").write_text(render_attack(by_tactic), encoding="utf-8")
+
+    # Página "Sobre mí"
+    about = render_about()
+    if about:
+        (OUT / "about.html").write_text(about, encoding="utf-8")
+
     total = sum(len(v) for v in by_area.values())
     print(f"✅ Sitio 0xRioseco generado en {OUT} — {total} entrada(s):")
     for col in COLLECTIONS:
         print(f"   · {col['name']:<34} {len(by_area[col['id']])} item(s) → {col['id']}.html")
+    print(f"   · MITRE ATT&CK: {n_tech} técnicas en {len(by_tactic)} tácticas → attack.html")
+    print(f"   · Sobre mí → about.html" if about else "   · (sin Sobre mí.md)")
 
 
 if __name__ == "__main__":
