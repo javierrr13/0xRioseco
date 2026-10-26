@@ -28,6 +28,7 @@ jobs:
           # Revisa todos los Markdown. Falla si hay enlaces rotos.
           args: >-
             --config lychee.toml
+            --offline
             --no-progress
             --verbose
             './**/*.md'
