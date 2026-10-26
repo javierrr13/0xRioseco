@@ -129,6 +129,85 @@ web — **mod_php (mayor riesgo)**, PHP-FPM, php-cgi, FrankenPHP y LiteSpeed.
 - **Fuente:** `dato por país no encontrado` → **Shadowserver Dashboard**; el desglose por despliegue sí
   es derivable de Sophos/Censys.
 
+### 3b. Gráficos reales (con los datos disponibles)
+
+> [!warning] Qué se puede graficar hoy y qué no
+> El **Gráfico 1** (apiladas por rama) y el **Gráfico 3** (coroplético por país) requieren un desglose
+> que **no está publicado** (`dato no encontrado`), así que se quedan como especificación hasta tener
+> la fuente (Censys por versión / Shadowserver por país). Abajo sí construyo tres gráficos **con datos
+> citados**: el problema del denominador, la curva de parcheo a 72 h y el contraste gestionado vs general.
+
+**A) El problema del denominador — exposición según fuente y método** (escala logarítmica)
+
+```chart
+{
+  "type": "bar",
+  "caption": "Mismo evento, ~20× de diferencia según QUÉ se cuente: hosts únicos (teal) vs servicios que anuncian versión (amarillo) vs telemetría de proveedor (morado). Fuentes: Censys (21–23 oct), VulnCheck, Palo Alto Cortex Xpanse. Eje X logarítmico.",
+  "data": {
+    "labels": ["Censys · hosts sin parchear (21-oct)", "VulnCheck · hosts PHP", "Palo Alto Xpanse · expuestas", "Censys · servicios vulnerables (23-oct)", "Censys · servicios por versión (22-oct)"],
+    "datasets": [{
+      "label": "Millones de sistemas",
+      "data": [1.57, 2.6, 22.6, 34, 36.7],
+      "backgroundColor": ["#00c2a8", "#00c2a8", "#7c3aed", "#fcc624", "#fcc624"]
+    }]
+  },
+  "options": {
+    "indexAxis": "y", "responsive": true, "maintainAspectRatio": false,
+    "scales": {"x": {"type": "logarithmic", "title": {"display": true, "text": "millones de sistemas (log)"}}},
+    "plugins": {"legend": {"display": false}, "title": {"display": true, "text": "El problema del denominador"}}
+  }
+}
+```
+
+**B) Adopción del parche en las primeras 72 h** (% aún vulnerable)
+
+```chart
+{
+  "type": "line",
+  "caption": "Métricas HETEROGÉNEAS (host-level de Censys el día 0, muestra de OX a 24 h, service-level de Censys a 48–72 h). La curva refleja también el cambio de método, no solo parcheo real: por eso NO es una serie homogénea. Aun así, la historia se sostiene: a 72 h seguía ~77% vulnerable.",
+  "data": {
+    "labels": ["0 h · 21-oct", "24 h · OX", "~48 h · 22-oct", "~72 h · 23-oct"],
+    "datasets": [{
+      "label": "% aún vulnerable",
+      "data": [99, 99.3, 80, 77],
+      "borderColor": "#f05032", "backgroundColor": "rgba(240,80,50,0.15)",
+      "fill": true, "tension": 0.3, "pointRadius": 5, "pointBackgroundColor": "#f05032"
+    }]
+  },
+  "options": {
+    "responsive": true, "maintainAspectRatio": false,
+    "scales": {"y": {"min": 0, "max": 100, "title": {"display": true, "text": "% aún vulnerable"}}},
+    "plugins": {"legend": {"display": false}, "title": {"display": true, "text": "Parcheo en las primeras 72 h"}}
+  }
+}
+```
+
+**C) Quién parchea — hosting gestionado vs población general** (a 24 h)
+
+```chart
+{
+  "type": "bar",
+  "caption": "A las 24 h del parche. El hosting gestionado parchea masivamente (Loopia ~99,9% al día 1; otros grandes >90%); la población general apenas se movió. El cuello de botella es OPERATIVO, no de disponibilidad del parche. Fuentes: Censys/OX (general), reportes de hosters.",
+  "data": {
+    "labels": ["Población general", "Grandes hosters", "Loopia"],
+    "datasets": [{
+      "label": "% aún vulnerable a 24 h",
+      "data": [77, 10, 0.1],
+      "backgroundColor": ["#f05032", "#fcc624", "#9fef00"]
+    }]
+  },
+  "options": {
+    "responsive": true, "maintainAspectRatio": false,
+    "scales": {"y": {"min": 0, "max": 100, "title": {"display": true, "text": "% aún vulnerable"}}},
+    "plugins": {"legend": {"display": false}, "title": {"display": true, "text": "Gestionado vs general (24 h)"}}
+  }
+}
+```
+
+> [!note] Reproducibilidad
+> Los datos de cada gráfico están escritos en el propio `.md` (bloques ` ```chart `) y se renderizan con
+> Chart.js. Si una fuente publica cifras nuevas, se editan ahí y el gráfico se actualiza al reconstruir.
+
 ### 4. Tendencia de parcheo en las primeras 72 h
 
 Con los *snapshots* disponibles (métricas **no homogéneas**, cada una etiquetada):
