@@ -43,7 +43,7 @@
 
 ## 🌐 Web
 
-Publicado en GitHub Pages: **https://javierrr13.github.io/htb-operations-center/**
+Publicado en GitHub Pages: **https://javierrr13.github.io/0xRioseco/**
 
 ---
 

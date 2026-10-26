@@ -44,7 +44,7 @@ MD_EXTS = ["fenced_code", "tables", "sane_lists", "attr_list", "md_in_html"]
 SITE_NAME = "0xRioseco"
 SITE_DESC = ("Laboratorio personal de Javier Rioseco: seguridad ofensiva, "
              "investigación de vulnerabilidades y data science.")
-GH_URL = "https://github.com/javierrr13/htb-operations-center"
+GH_URL = "https://github.com/javierrr13/0xRioseco"
 
 # --------------------------------------------------------------------------- #
 #  Áreas del sitio
@@ -370,11 +370,15 @@ def projects_html(projects):
     return out
 
 
-def timeline_html(profile):
-    """Formación + experiencia como dos columnas de línea de tiempo."""
+def timeline_html(profile, home=False):
+    """Formación + experiencia como dos columnas de línea de tiempo.
+
+    Con home=True se omiten las entradas marcadas con `home: false`."""
     def entries(items, kind):
         out = ""
         for e in items or []:
+            if home and e.get("home") is False:
+                continue
             sub = " · ".join(x for x in (as_str(e.get("org")), as_str(e.get("place"))) if x)
             lis = "".join(f"<li>{html.escape(as_str(i))}</li>" for i in (e.get("items") or []))
             period = as_str(e.get("period"))
@@ -441,7 +445,7 @@ def render_index(by_area, recent, profile=None):
   <div class="projects">{projects_html(projects)}</div>
 </div></section>"""
 
-    timeline = timeline_html(profile)
+    timeline = timeline_html(profile, home=True)
     timeline_sec = ""
     if timeline:
         timeline_sec = f"""
