@@ -124,7 +124,7 @@ uid=1000(nightfall) gid=1000(nightfall) groups=1000(nightfall)
 
 En el directorio personal de `nightfall` aparece un directorio oculto `.mcp/` con un fichero `config.json` que filtra las credenciales de acceso a un servidor MCP interno (registro de herramientas para el agente de IA), alcanzable dentro de la red del clúster.
 
-> ![MCP authentication](/attachments/fireflow_fig2_mcp_auth.png)
+> ![MCP authentication](attachments/fireflow_fig2_mcp_auth.png)
 > *Fig. 2 — `config.json` filtrado, autenticación contra `/api/v1/auth` y obtención del JWT legítimo (rol `"user"`).*
 
 Consultando el endpoint de versión del servicio (`/api/v1/version`) se descubre que, además de HS256, el servidor acepta el algoritmo de firma **`"none"`** para los JWT — una mala configuración clásica que permite construir un token válido sin conocer ningún secreto: basta con dejar la firma vacía. El token legítimo obtenido con las credenciales de `langflow-bot` decodifica a `{"sub":"langflow-bot","role":"user"}`, insuficiente para el endpoint administrativo `POST /api/v1/tools`.
