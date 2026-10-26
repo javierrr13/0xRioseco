@@ -1,11 +1,14 @@
 ---
 title: "Fireflow — HackTheBox Business CTF 2026"
 machine: Fireflow
+platform: "Business CTF 2026"
 difficulty: Media
 os: Linux
 author_machine: amra13579
 solved_by: Javier Rioseco Rodriguez
-pwn_date: 2026-08-31
+date: 2026-08-31
+entry_vector: "flow_id Langflow → RCE no autenticada (CVE-2026-33017)"
+privesc_vector: "JWT alg:none (MCP) → shell en pod → RBAC nodes/proxy en Kubernetes"
 xp: 650
 tags:
   - htb

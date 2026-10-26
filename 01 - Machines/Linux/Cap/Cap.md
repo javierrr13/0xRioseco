@@ -1,9 +1,12 @@
 ---
 title: "HTB Cap"
 machine: Cap
+platform: "HackTheBox"
 difficulty: Fácil
 os: Linux
-author: Javier Rioseco Rodriguez
+author_machine: ""
+solved_by: Javier Rioseco Rodriguez
+date:
 entry_vector: "IDOR → PCAP → Credenciales FTP"
 privesc_vector: "Linux Capabilities (cap_setuid)"
 tags:

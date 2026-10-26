@@ -91,6 +91,9 @@ flowchart TD
 > [!NOTE]
 > `01 - Machines/` es donde vive el trabajo real (notas de proceso, capturas, comandos). `06 - Writeups/` reserva una versión más narrativa y cuidada de los casos que quiero destacar en el porfolio — no todas las máquinas de `01 -` tienen por qué llegar ahí.
 
+> [!IMPORTANT]
+> **Estado actual del repo.** La estructura anterior es el plan completo hacia el que crece esta base de conocimiento. Hoy están **publicados**: `00 - Dashboard/`, `01 - Machines/Linux/` (Cap, Fireflow) y `99 - Templates/`. El resto de carpetas (`02 - Challenges/`, `03 - Academy/`, `04 - Notes/`, `05 - Cheatsheets/`, `06 - Writeups/`) están **en construcción** y se irán poblando progresivamente.
+
 <br>
 
 ## 🧠 Áreas de estudio
@@ -161,7 +164,7 @@ flowchart TD
 
 `Nmap` · `Burp Suite` · `ffuf` · `Gobuster` · `Feroxbuster` · `Impacket` · `BloodHound` · `NetExec` · `CrackMapExec` · `Hashcat` · `John the Ripper` · `Metasploit` · `LinPEAS` · `WinPEAS` · `Chisel` · `Ligolo-ng`
 
-Documentadas en detalle en [`05 - Cheatsheets/`](<05%20-%20Cheatsheets>).
+Se documentarán en detalle en `05 - Cheatsheets/` *(en construcción)*.
 
 </div>
 
@@ -203,9 +206,9 @@ Toda nueva máquina arranca desde la plantilla [`99 - Templates/Machine.md`](<99
 
 1. **Punto de entrada:** [`00 - Dashboard/Home.md`](<00%20-%20Dashboard/Home.md>) — panel general con enlaces a todo lo demás.
 2. **Nivel de detalle técnico:** entra en [`01 - Machines/`](<01%20-%20Machines>) por sistema operativo, o directamente a [`01 - Machines/Linux/Fireflow/Fireflow.md`](<01%20-%20Machines/Linux/Fireflow/Fireflow.md>) como ejemplo completo.
-3. **Versión "porfolio":** [`06 - Writeups/`](<06%20-%20Writeups>) reúne los casos más pulidos, pensados para leerse de forma independiente.
-4. **Referencias rápidas:** [`05 - Cheatsheets/`](<05%20-%20Cheatsheets>) para comandos y sintaxis sin rodeos.
-5. **Fundamentos y teoría:** [`04 - Notes/`](<04%20-%20Notes>), organizados por dominio (AD, Linux, Web, Pivoting, etc.).
+3. **Versión "porfolio":** `06 - Writeups/` reunirá los casos más pulidos, pensados para leerse de forma independiente *(en construcción)*.
+4. **Referencias rápidas:** `05 - Cheatsheets/` para comandos y sintaxis sin rodeos *(en construcción)*.
+5. **Fundamentos y teoría:** `04 - Notes/`, organizados por dominio (AD, Linux, Web, Pivoting, etc.) *(en construcción)*.
 
 > [!NOTE]
 > Este repositorio está pensado para leerse tanto en GitHub como en Obsidian. Los enlaces internos (`[[nota]]`) funcionan en Obsidian; en GitHub uso rutas relativas normales para que también naveguen bien aquí.

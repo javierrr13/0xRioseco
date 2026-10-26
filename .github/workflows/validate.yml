@@ -1,0 +1,74 @@
+name: Validate Knowledge Base
+
+# Valida la integridad del vault en cada push / PR:
+#  1. Enlaces rotos (relativos y externos) con lychee.
+#  2. Escaneo de material sensible: flags HTB en claro, IPs no redactadas,
+#     posibles claves privadas. Refuerza por CI la disciplina de redacción
+#     que el repo ya mantiene a mano.
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  link-check:
+    name: Comprobar enlaces (lychee)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Link checker
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Revisa todos los Markdown. Falla si hay enlaces rotos.
+          args: >-
+            --config lychee.toml
+            --no-progress
+            --verbose
+            './**/*.md'
+          fail: true
+
+  secret-scan:
+    name: Escaneo de flags y secretos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Buscar flags HTB en claro
+        run: |
+          echo "🔎 Buscando flags HTB con formato HTB{...} ..."
+          # Ignora placeholders y menciones documentales del formato
+          # (HTB{...}, HTB{…}, ejemplos, REDACTED).
+          hits=$(grep -rInE 'HTB\{[^}]+\}' --include='*.md' . \
+                 | grep -viE 'REDACTED|ejemplo|example|placeholder|\.\.\.|…' || true)
+          if [ -n "$hits" ]; then
+            echo "$hits"
+            echo "::error::Se ha encontrado una flag HTB en claro. Redáctala antes de commitear."
+            exit 1
+          fi
+          echo "✅ Sin flags en claro."
+
+      - name: Buscar hashes de flag de 32 hex (posible user/root.txt)
+        run: |
+          echo "🔎 Buscando posibles valores de flag (32 hex) en bloques de código ..."
+          # Flags de máquina HTB = 32 caracteres hex. Permitimos marcadores redactados.
+          if grep -rInE '(^|[^0-9a-fA-F])[0-9a-f]{32}([^0-9a-fA-F]|$)' --include='*.md' . \
+             | grep -viE '<REDACTED>|REDACTED|ejemplo|example'; then
+            echo "::warning::Cadena de 32 hex detectada. Verifica que no sea una flag sin redactar."
+          fi
+          echo "✅ Revisión de 32-hex completada."
+
+      - name: Buscar claves privadas incrustadas
+        run: |
+          echo "🔎 Buscando cabeceras de clave privada ..."
+          if grep -rIn 'BEGIN \(RSA \|OPENSSH \|EC \|DSA \|PGP \)\?PRIVATE KEY' \
+             --include='*.md' --include='*.txt' .; then
+            echo "::error::Posible clave privada incrustada. Elimínala y rota la clave."
+            exit 1
+          fi
+          echo "✅ Sin claves privadas incrustadas."
