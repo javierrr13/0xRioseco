@@ -9,6 +9,19 @@ solved_by: Javier Rioseco Rodriguez
 date:
 entry_vector: "IDOR → PCAP → Credenciales FTP"
 privesc_vector: "Linux Capabilities (cap_setuid)"
+attack:
+  - id: T1190
+    name: Exploit Public-Facing Application
+    tactic: Initial Access
+  - id: T1040
+    name: Network Sniffing
+    tactic: Credential Access
+  - id: T1078
+    name: Valid Accounts
+    tactic: Lateral Movement
+  - id: T1548.001
+    name: "Abuse Elevation Control Mechanism: Setuid and Setgid"
+    tactic: Privilege Escalation
 tags:
   - htb
   - ctf
