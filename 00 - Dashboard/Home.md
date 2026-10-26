@@ -1,74 +1,52 @@
-# 🛰️ HTB Operations Center
+# 🧪 0xRioseco
 
-> Personal cybersecurity knowledge base & Hack The Box lab.
-
----
-
-## 🎯 Current Focus
-
-- [ ] Linux Privilege Escalation
-- [ ] Active Directory
-- [ ] Web Enumeration
+> Laboratorio personal de Javier Rioseco — seguridad ofensiva, investigación de vulnerabilidades y data science.
 
 ---
 
-## 🖥️ Machines
+## 🧭 Áreas
 
-| Máquina | Plataforma | OS | Dificultad | Estado |
-|---|---|---|---|---|
-| [[01 - Machines/Linux/Cap/Cap\|Cap]] | HackTheBox | 🐧 Linux | Fácil | ✅ Retired |
-| [[01 - Machines/Linux/Fireflow/Fireflow\|Fireflow]] | Business CTF 2026 | 🐧 Linux | Media | ✅ Retired |
-
-> [!tip] Punto de entrada recomendado
-> **[[01 - Machines/Linux/Fireflow/Fireflow\|Fireflow]]** — RCE en Langflow → JWT forgery → abuso de RBAC en Kubernetes.
-
----
-
-## 🧰 Core Skills
-
-> Las notas de teoría (`04 - Notes/`) y cheatsheets (`05 - Cheatsheets/`) están en construcción.
-> Por ahora, los conceptos aplicados viven dentro de cada writeup de máquina.
-
-- [ ] Enumeration
-- [ ] Linux PrivEsc
-- [ ] Active Directory
-- [ ] Web Enumeration
+| Área | Carpeta | Estado |
+|---|---|---|
+| 🎯 Ofensiva · HTB & CTFs | `01 - Machines/` | 🟢 Activa |
+| 🔬 Investigación de vulnerabilidades | `07 - Research/` | 🟡 Arrancando |
+| 📊 Data Science / ML | `08 - Data Science/` | 🟡 Arrancando |
+| 📚 Notas & Cheatsheets | `04 - Notes/` · `05 - Cheatsheets/` | 🟡 Arrancando |
 
 ---
 
-## 📚 Cheatsheets
-
-> 🚧 *Work in progress* — pendientes de crear en `05 - Cheatsheets/`.
-
-- [ ] Nmap
-- [ ] Gobuster / ffuf
-- [ ] Burp Suite
-- [ ] Impacket
-
----
-
-## 📝 Writeups destacados
+## 🎯 Ofensiva — Máquinas
 
 - [[01 - Machines/Linux/Cap/Cap\|Cap]] — IDOR → PCAP → FTP → Linux capabilities (`cap_setuid`)
 - [[01 - Machines/Linux/Fireflow/Fireflow\|Fireflow]] — Langflow RCE → JWT `alg:none` → Kubernetes RBAC
+
+## 🔬 Investigación de vulnerabilidades
+
+- [[07 - Research/Metodología de análisis de vulnerabilidades\|Metodología de análisis de vulnerabilidades]]
+
+## 📊 Data Science / ML
+
+- [[08 - Data Science/Stack y enfoque de trabajo\|Stack y enfoque de trabajo]]
+
+## 📚 Notas & Cheatsheets
+
+- [[05 - Cheatsheets/Nmap\|Nmap — Cheatsheet]]
 
 ---
 
 ## 🧩 Plantillas
 
-- [[99 - Templates/Machine\|Machine.md]] — plantilla base para una nueva máquina.
+- [[99 - Templates/Machine\|Machine.md]] — writeup de máquina.
+- [[99 - Templates/Post\|Post.md]] — entrada de research / data / notas.
 
 ---
 
-## 🧠 Knowledge Graph
+## 🌐 Web
 
-> Machines → Techniques → Tools → Vulnerabilities
+Publicado en GitHub Pages: **https://javierrr13.github.io/htb-operations-center/**
 
 ---
 
 ### Legend
 
-🟢 Completed  
-🟡 In Progress  
-🔴 Blocked  
-⚪ Not Started
+🟢 Completado / Activo  🟡 En progreso  🔴 Blocked  ⚪ Not Started

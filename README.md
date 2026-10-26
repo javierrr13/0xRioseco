@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:9FEF00,100:0B0C10&height=220&section=header&text=HTB%20Operations%20Center&fontSize=42&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Cybersecurity%20Knowledge%20Base%20%7C%20Hack%20The%20Box%20%7C%20Security%20Research&descAlignY=55&descSize=18" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:9FEF00,100:0B0C10&height=220&section=header&text=0xRioseco&fontSize=52&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Offensive%20Security%20%7C%20Vulnerability%20Research%20%7C%20Data%20Science&descAlignY=55&descSize=18" width="100%"/>
 
 <br>
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=20&duration=3000&pause=800&color=9FEF00&center=true&vCenter=true&width=600&lines=whoami+%3D%3E+student+%2B+hacker+%2B+builder;Learn+%E2%86%92+Document+%E2%86%92+Connect+%E2%86%92+Reuse;Currently+pwning%3A+HTB+Business+CTF+2026)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=20&duration=3000&pause=800&color=9FEF00&center=true&vCenter=true&width=640&lines=whoami+%3D%3E+student+%2B+hacker+%2B+builder;Offensive+Security+%E2%86%92+Vuln+Research+%E2%86%92+Data;Learn+%E2%86%92+Document+%E2%86%92+Connect+%E2%86%92+Reuse)](https://git.io/typing-svg)
 
 <br>
 
@@ -31,6 +31,8 @@ Javier Rioseco Rodríguez — 21 años — Estudiante de ciberseguridad
 Construir un porfolio técnico real, verificable y útil — no solo "resolví la máquina"
 > stack mental
 Ofensiva web · Linux/Windows privesc · Active Directory · Cloud & Kubernetes
+> y además
+Investigación de vulnerabilidades (CVEs, PoCs) · Data Science / ML
 ```
 
 > [!TIP]
@@ -84,7 +86,9 @@ flowchart TD
 ├── 05 - Cheatsheets/        → Referencias rápidas de comandos
 ├── 06 - Writeups/           → Versión pulida y compartible de casos destacados
 │   ├── Challenges/  Machines/
-├── 99 - Templates/          → Machine.md y futuras plantillas de nota
+├── 07 - Research/           → Investigación de vulnerabilidades (CVEs, PoCs)
+├── 08 - Data Science/       → Proyectos de datos, análisis y ML
+├── 99 - Templates/          → Machine.md, Post.md y futuras plantillas
 └── Attachments/             → Recursos globales (no ligados a una nota concreta)
 ```
 
@@ -92,7 +96,7 @@ flowchart TD
 > `01 - Machines/` es donde vive el trabajo real (notas de proceso, capturas, comandos). `06 - Writeups/` reserva una versión más narrativa y cuidada de los casos que quiero destacar en el porfolio — no todas las máquinas de `01 -` tienen por qué llegar ahí.
 
 > [!IMPORTANT]
-> **Estado actual del repo.** La estructura anterior es el plan completo hacia el que crece esta base de conocimiento. Hoy están **publicados**: `00 - Dashboard/`, `01 - Machines/Linux/` (Cap, Fireflow) y `99 - Templates/`. El resto de carpetas (`02 - Challenges/`, `03 - Academy/`, `04 - Notes/`, `05 - Cheatsheets/`, `06 - Writeups/`) están **en construcción** y se irán poblando progresivamente.
+> **Estado actual del repo.** La estructura anterior es el plan completo hacia el que crece este laboratorio. Hoy están **publicados**: `00 - Dashboard/`, `01 - Machines/Linux/` (Cap, Fireflow), `05 - Cheatsheets/` (Nmap), `07 - Research/`, `08 - Data Science/` y `99 - Templates/`. El resto (`02 - Challenges/`, `03 - Academy/`, `04 - Notes/`, `06 - Writeups/`) están **en construcción** y se irán poblando progresivamente.
 
 <br>
 
@@ -202,14 +206,16 @@ Toda nueva máquina arranca desde la plantilla [`99 - Templates/Machine.md`](<99
 
 <br>
 
-## 🌐 Versión web
+## 🌐 Versión web — **0xRioseco**
 
-Este vault se publica también como **web navegable** (roadmap interactivo + writeups) en GitHub Pages:
+Este vault se publica también como **web navegable** en GitHub Pages: un hub por áreas
+(Ofensiva · Investigación de vulnerabilidades · Data Science · Notas), con roadmap
+interactivo en la sección ofensiva y una página por writeup/post.
 
 👉 **https://javierrr13.github.io/htb-operations-center/**
 
 > [!NOTE]
-> La web se genera automáticamente desde los `.md` de `01 - Machines/` (ver `site/build.py` y el workflow `Deploy site to GitHub Pages`). Añades una máquina al vault y, al hacer merge a la rama por defecto, aparece sola en la web.
+> La web se genera automáticamente desde los `.md` del vault (ver `site/build.py` y el workflow `Deploy site to GitHub Pages`). Cada área apunta a una carpeta; añades un `.md` con su frontmatter y, al hacer merge a la rama por defecto, aparece solo en la web.
 
 <br>
 

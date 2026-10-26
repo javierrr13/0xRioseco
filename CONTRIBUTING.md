@@ -89,6 +89,39 @@ si detecta una flag `HTB{...}` en claro o una clave privada incrustada.
 
 ---
 
+## 4b. Esquema de frontmatter (posts: research / data / notas)
+
+Las entradas que **no** son máquinas (investigación, data science, notas,
+cheatsheets) usan [`99 - Templates/Post.md`](<99 - Templates/Post.md>) y este
+frontmatter:
+
+```yaml
+---
+title: ""
+type: post
+category: research        # research | data | notes | cheatsheet
+date:                     # YYYY-MM-DD
+status: published         # wip | published
+summary: ""               # 1–2 líneas que se muestran en la tarjeta de la web
+tags: []
+---
+```
+
+Cada **área** de la web apunta a una o más carpetas del vault (ver `COLLECTIONS`
+en `site/build.py`):
+
+| Área | Carpeta(s) | Tipo |
+|---|---|---|
+| Ofensiva · HTB & CTFs | `01 - Machines/` | máquina |
+| Investigación de vulnerabilidades | `07 - Research/` | post |
+| Data Science / ML | `08 - Data Science/` | post |
+| Notas & Cheatsheets | `04 - Notes/`, `05 - Cheatsheets/` | post |
+
+Para publicar algo nuevo: crea el `.md` con su frontmatter en la carpeta del área.
+Al hacer merge a la rama por defecto, la web se regenera y la entrada aparece sola.
+
+---
+
 ## 5. Enlaces
 
 - En Obsidian usa wikilinks (`[[nota]]`).

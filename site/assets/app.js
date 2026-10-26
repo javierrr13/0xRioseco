@@ -174,3 +174,23 @@
   updatePhaseLabel();
   render();
 })();
+
+/* Buscador genérico para páginas de área tipo "post" (research/data/notes). */
+(function () {
+  "use strict";
+  var input = document.getElementById("post-search");
+  var grid = document.getElementById("post-grid");
+  if (!input || !grid) return;
+  var cards = Array.prototype.slice.call(grid.querySelectorAll(".post-card"));
+  var empty = document.getElementById("post-empty");
+  input.addEventListener("input", function () {
+    var q = input.value.toLowerCase().trim();
+    var shown = 0;
+    cards.forEach(function (c) {
+      var hit = !q || (c.getAttribute("data-search") || "").indexOf(q) > -1;
+      c.style.display = hit ? "" : "none";
+      if (hit) shown++;
+    });
+    if (empty) empty.style.display = shown ? "none" : "";
+  });
+})();
