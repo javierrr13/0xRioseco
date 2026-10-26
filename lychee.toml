@@ -8,19 +8,20 @@ timeout = 20
 # No descender en el directorio de git.
 exclude_path = [".git"]
 
-exclude_mail = true
-
 # Excluir (por regex sobre la URL):
 #  - fragmento vacío de placeholders href="#"
+#  - correo (mailto:)
 #  - hosts de badges/imágenes decorativas que limitan peticiones desde CI
 #    (shields.io, skillicons, capsule-render, readme-typing-svg).
 # Los enlaces relativos entre notas y los doc links reales (gtfobins,
 # hackthebox.com) SÍ se verifican.
 exclude = [
   "^#$",
+  "^mailto:",
   "img\\.shields\\.io",
   "skillicons\\.dev",
   "capsule-render\\.vercel\\.app",
   "readme-typing-svg\\.demolab\\.com",
   "git\\.io/typing-svg",
+  "hackthebox\\.com",
 ]
