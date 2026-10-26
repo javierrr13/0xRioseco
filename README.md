@@ -212,7 +212,7 @@ Este vault se publica también como **web navegable** en GitHub Pages: un hub po
 (Ofensiva · Investigación de vulnerabilidades · Data Science · Notas), con roadmap
 interactivo en la sección ofensiva y una página por writeup/post.
 
-👉 **https://javierrr13.github.io/htb-operations-center/**
+👉 **https://javierrr13.github.io/0xRioseco/**
 
 > [!NOTE]
 > La web se genera automáticamente desde los `.md` del vault (ver `site/build.py` y el workflow `Deploy site to GitHub Pages`). Cada área apunta a una carpeta; añades un `.md` con su frontmatter y, al hacer merge a la rama por defecto, aparece solo en la web.

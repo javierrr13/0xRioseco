@@ -2,7 +2,7 @@
 name: "Javier Rioseco Rodríguez"
 role: "Ciberseguridad ofensiva · Ciencia de Datos"
 location: "Oviedo, Asturias (España)"
-tagline: "Estudiante de Ciencia de Datos (UNIR) con especialización en Ciberseguridad (MEDAC). Pentesting, investigación y datos: aprender, documentar y conectar, no solo resolver la máquina."
+tagline: "Estudiante de Ciencia de Datos (UNIR) especializado en ciberseguridad. Pentesting, investigación y datos: aprender, documentar y conectar, no solo resolver la máquina."
 email: ""            # opcional: añade tu correo si quieres mostrarlo públicamente
 cv: ""               # opcional: ruta a un PDF público, p.ej. assets/cv/CV-Javier-Rioseco.pdf
 links:
@@ -32,6 +32,7 @@ education:
   - title: "Curso de Especialización en Ciberseguridad en Entornos de las Tecnologías de la Información"
     org: "MEDAC"
     period: "oct. 2024 – jun. 2025"
+    home: false        # no se muestra en la portada, solo en "Sobre mí"
   - title: "CFGS Desarrollo de Aplicaciones Multiplataforma"
     org: "IES Doctor Fleming, Oviedo"
     period: ""
