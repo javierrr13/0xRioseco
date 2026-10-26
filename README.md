@@ -202,6 +202,17 @@ Toda nueva máquina arranca desde la plantilla [`99 - Templates/Machine.md`](<99
 
 <br>
 
+## 🌐 Versión web
+
+Este vault se publica también como **web navegable** (roadmap interactivo + writeups) en GitHub Pages:
+
+👉 **https://javierrr13.github.io/htb-operations-center/**
+
+> [!NOTE]
+> La web se genera automáticamente desde los `.md` de `01 - Machines/` (ver `site/build.py` y el workflow `Deploy site to GitHub Pages`). Añades una máquina al vault y, al hacer merge a la rama por defecto, aparece sola en la web.
+
+<br>
+
 ## 🚀 Cómo navegar este repo
 
 1. **Punto de entrada:** [`00 - Dashboard/Home.md`](<00%20-%20Dashboard/Home.md>) — panel general con enlaces a todo lo demás.
