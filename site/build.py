@@ -117,13 +117,34 @@ def md_to_html(md_text):
     return markdown.markdown(md_text, extensions=MD_EXTS, output_format="html5")
 
 
-def extract_blocks(body, tokens):
+def extract_blocks(body, tokens, charts):
     def mermaid_sub(m):
         tok = f"XBLOCKX{len(tokens)}XBLOCKX"
         tokens.append((tok, f'<pre class="mermaid">{html.escape(m.group(1))}</pre>'))
         return f"\n\n{tok}\n\n"
 
     body = re.sub(r"```mermaid\n(.*?)```", mermaid_sub, body, flags=re.DOTALL)
+
+    # Bloques de gráfico: ```chart\n{ ...spec Chart.js + "title"/"caption"... }```
+    def chart_sub(m):
+        try:
+            spec = json.loads(m.group(1))
+        except json.JSONDecodeError as e:
+            tok = f"XBLOCKX{len(tokens)}XBLOCKX"
+            tokens.append((tok, f'<pre class="callout c-danger">chart JSON inválido: {html.escape(str(e))}</pre>'))
+            return f"\n\n{tok}\n\n"
+        cid = f"chart{len(charts)}"
+        caption = spec.pop("caption", "") or spec.pop("title", "")
+        charts.append((cid, spec))
+        tok = f"XBLOCKX{len(tokens)}XBLOCKX"
+        fig = (f'<figure class="chart-card"><div class="chart-wrap">'
+               f'<canvas id="{cid}"></canvas></div>'
+               + (f'<figcaption>{html.escape(caption)}</figcaption>' if caption else "")
+               + '</figure>')
+        tokens.append((tok, fig))
+        return f"\n\n{tok}\n\n"
+
+    body = re.sub(r"```chart\n(.*?)```", chart_sub, body, flags=re.DOTALL)
 
     out, lines, i = [], body.splitlines(), 0
     while i < len(lines):
@@ -157,13 +178,39 @@ def rewrite_images(html_text, bucket, slug):
     return re.sub(r'(src)="(?:\./)?attachments/([^"]+)"', sub, html_text)
 
 
-def render_body(body, bucket, slug):
+def render_body(body, bucket, slug, charts=None):
     tokens = []
-    body = extract_blocks(strip_first_h1(body), tokens)
+    if charts is None:
+        charts = []
+    body = extract_blocks(strip_first_h1(body), tokens, charts)
     out = md_to_html(body)
     for tok, blk in tokens:
         out = out.replace(f"<p>{tok}</p>", blk).replace(tok, blk)
     return rewrite_images(out, bucket, slug)
+
+
+def charts_script(charts, prefix=""):
+    """Devuelve el <script> que instancia los Chart.js del post (o '').
+
+    Chart.js se sirve auto-alojado desde assets/vendor (sin CDN en runtime)."""
+    if not charts:
+        return ""
+    chartjs = f'<script src="{prefix}assets/vendor/chart.umd.min.js"></script>'
+    inits = "\n".join(
+        f"new Chart(document.getElementById({json.dumps(cid)}),"
+        f"{json.dumps(spec, ensure_ascii=False)});"
+        for cid, spec in charts
+    )
+    defaults = (
+        "if(window.Chart){"
+        "Chart.defaults.color='#aab0ba';"
+        "Chart.defaults.borderColor='rgba(255,255,255,0.08)';"
+        "Chart.defaults.font.family=\"'Fira Code', ui-monospace, monospace\";"
+        "Chart.defaults.font.size=12;"
+        "Chart.defaults.plugins.legend.labels.boxWidth=14;"
+        "}"
+    )
+    return f"{chartjs}\n<script>{defaults}\n{inits}</script>"
 
 
 # --------------------------------------------------------------------------- #
@@ -516,7 +563,8 @@ def render_machine(m):
 
 
 def render_post(p):
-    prose = render_body(p["_body"], "posts", p["slug"])
+    charts = []
+    prose = render_body(p["_body"], "posts", p["slug"], charts)
     col = next(c for c in COLLECTIONS if c["id"] == p["area"])
     info = "".join(
         f'<div><div class="k">{k}</div><div class="v">{html.escape(v)}</div></div>'
@@ -535,7 +583,8 @@ def render_post(p):
   </div>
 </div></main>"""
     return page_shell(f'{p["title"]} — {SITE_NAME}',
-                      p["summary"] or p["title"], body, prefix="../")
+                      p["summary"] or p["title"], body, prefix="../",
+                      scripts=charts_script(charts, "../"))
 
 
 # --------------------------------------------------------------------------- #
@@ -556,9 +605,7 @@ def main():
         shutil.rmtree(OUT)
     for sub in ("machines", "posts", "assets"):
         (OUT / sub).mkdir(parents=True, exist_ok=True)
-    for f in (SITE_SRC / "assets").iterdir():
-        if f.is_file():
-            shutil.copy2(f, OUT / "assets" / f.name)
+    shutil.copytree(SITE_SRC / "assets", OUT / "assets", dirs_exist_ok=True)
     (OUT / ".nojekyll").write_text("", encoding="utf-8")
 
     by_area, recent = {}, []

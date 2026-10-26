@@ -339,3 +339,11 @@ section { padding: 46px 0; }
 .recent .r-area { font-family: var(--mono); font-size: 11px; color: var(--accent, var(--green)); }
 .recent .r-title { color: var(--text); font-size: 14.5px; font-weight: 600; }
 .recent .r-date { font-family: var(--mono); font-size: 11px; color: var(--text-mut); }
+
+/* ---------- Gráficos embebidos (Chart.js) ------------------------------ */
+.chart-card { margin: 22px 0; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px 18px 12px; }
+.chart-wrap { position: relative; width: 100%; height: 340px; }
+.chart-card figcaption { margin-top: 10px; font-size: 13px; color: var(--text-mut);
+  font-family: var(--mono); line-height: 1.5; }
+@media (max-width: 560px) { .chart-wrap { height: 300px; } }
