@@ -157,6 +157,9 @@ def extract_blocks(body, tokens, charts):
                     i + 1 < len(lines) and lines[i + 1].startswith(">")
                 ):
                     break
+                # una línea en blanco seguida de otro "> [!tipo]" empieza un callout nuevo
+                if lines[i].strip() == "" and re.match(r"^>\s*\[!\w+\]", lines[i + 1]):
+                    break
                 inner.append(re.sub(r"^>\s?", "", lines[i]))
                 i += 1
             icon, cls = CALLOUT_META.get(ctype, ("🔸", "c-note"))

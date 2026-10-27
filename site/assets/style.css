@@ -403,3 +403,8 @@ section { padding: 46px 0; }
 .tl-org { font-size: 13.5px; color: var(--text-dim); }
 .tl-item ul { margin: 6px 0 0; padding-left: 18px; color: var(--text-dim); font-size: 13.5px; }
 .langs span b { color: var(--text); }
+
+/* tablas anchas: scroll horizontal en pantallas estrechas */
+@media (max-width: 900px) {
+  .prose table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
