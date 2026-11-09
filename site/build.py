@@ -624,9 +624,12 @@ def render_machine(m):
     <a class="btn" href="{GH_URL}">Ver en GitHub ↗</a>
   </div>
 </div></main>"""
-    mermaid = ('<script type="module">import mermaid from '
-               '"https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs";'
-               'mermaid.initialize({startOnLoad:true,theme:"dark"});</script>')
+    # mermaid auto-alojado (sin CDN en runtime); solo se carga si hay diagramas
+    mermaid = ""
+    if 'class="mermaid"' in prose:
+        mermaid = ('<script src="../assets/vendor/mermaid.min.js"></script>'
+                   '<script>mermaid.initialize({startOnLoad:true,theme:"dark",'
+                   'themeVariables:{fontFamily:"Fira Code, monospace"}});</script>')
     return page_shell(f'{m["machine"]} — {SITE_NAME}',
                       f'Writeup de {m["machine"]} ({m["os"]}, {m["difficulty"]}).',
                       body, prefix="../", scripts=mermaid)
